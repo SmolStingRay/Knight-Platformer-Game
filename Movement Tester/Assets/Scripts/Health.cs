@@ -15,6 +15,7 @@ public class Health : MonoBehaviour
     public event Action Damaged;
     public event Action Died;
 
+    public int BaseMaxHealth => maxHealth;
     public int MaxHealth => maxHealth;
     public int CurrentHealth { get; private set; }
     public bool IsDead { get; private set; }
@@ -81,6 +82,28 @@ public class Health : MonoBehaviour
     {
         IsDead = false;
         CurrentHealth = maxHealth;
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+    }
+
+    public void SetMaxHealth(int value, bool restoreFullHealth)
+    {
+        maxHealth = Mathf.Max(1, value);
+
+        if (restoreFullHealth)
+        {
+            RestoreFullHealth();
+            return;
+        }
+
+        CurrentHealth = Mathf.Clamp(CurrentHealth, 0, maxHealth);
+        IsDead = CurrentHealth == 0;
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+    }
+
+    public void SetCurrentHealth(int value)
+    {
+        CurrentHealth = Mathf.Clamp(value, 0, maxHealth);
+        IsDead = CurrentHealth == 0;
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
