@@ -4,6 +4,21 @@ public class DamageSource2D : MonoBehaviour
 {
     [SerializeField] private int damage = 1;
     [SerializeField] private bool destroyAfterHit;
+    [SerializeField] private bool useCombatStatsDamage = true;
+    [SerializeField] private PlayerCombatStats combatStatsSource;
+
+    private void Awake()
+    {
+        if (combatStatsSource == null)
+        {
+            combatStatsSource = GetComponent<PlayerCombatStats>();
+        }
+
+        if (combatStatsSource == null)
+        {
+            combatStatsSource = GetComponentInParent<PlayerCombatStats>();
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -23,12 +38,22 @@ public class DamageSource2D : MonoBehaviour
             return;
         }
 
-        health.TakeDamage(damage);
+        health.TakeDamage(GetDamageAmount());
 
         if (destroyAfterHit)
         {
             Destroy(gameObject);
         }
+    }
+
+    private int GetDamageAmount()
+    {
+        if (useCombatStatsDamage && combatStatsSource != null)
+        {
+            return combatStatsSource.AttackDamage;
+        }
+
+        return damage;
     }
 
     private static Health FindHealth(Collider2D other)

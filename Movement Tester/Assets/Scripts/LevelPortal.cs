@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
-[RequireComponent(typeof(Collider2D))]
 public class LevelPortal : MonoBehaviour
 {
     [System.Serializable]
@@ -13,9 +13,13 @@ public class LevelPortal : MonoBehaviour
 
     [SerializeField] private string menuTitle = "Choose Level";
     [SerializeField] private KeyCode interactionKey = KeyCode.E;
+    [SerializeField] private float interactionRange = 1.25f;
+    [SerializeField] private GameObject promptRoot;
+    [SerializeField] private TMP_Text promptLabel;
+    [SerializeField] private string promptMessage = "Press E to use portal";
     [SerializeField] private LevelOption[] levelOptions;
 
-    private PlayerResources currentPlayer;
+    private PlayerResources playerResources;
     private bool isMenuOpen;
     private SimpleRuntimeMenu runtimeMenu;
 
@@ -28,16 +32,41 @@ public class LevelPortal : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void Start()
     {
-        currentPlayer = FindPlayerResources(other);
+        playerResources = FindFirstObjectByType<PlayerResources>();
+        SetPromptVisible(false);
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void Update()
     {
-        currentPlayer = FindPlayerResources(other);
+        if (playerResources == null)
+        {
+            playerResources = FindFirstObjectByType<PlayerResources>();
+        }
 
-        if (currentPlayer != null && Input.GetKeyDown(interactionKey))
+        bool inRange = IsPlayerInRange();
+        if (!inRange)
+        {
+            SetPromptVisible(false);
+            if (isMenuOpen)
+            {
+                CloseMenu();
+            }
+            return;
+        }
+
+        if (!isMenuOpen)
+        {
+            UpdatePrompt();
+            SetPromptVisible(true);
+        }
+        else
+        {
+            SetPromptVisible(false);
+        }
+
+        if (Input.GetKeyDown(interactionKey))
         {
             if (isMenuOpen)
             {
@@ -50,36 +79,27 @@ public class LevelPortal : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        PlayerResources resources = FindPlayerResources(other);
-        if (resources != null && resources == currentPlayer)
-        {
-            currentPlayer = null;
-            CloseMenu();
-        }
-    }
-
     private void LoadLevel(string sceneName)
     {
-        if (string.IsNullOrWhiteSpace(sceneName) || currentPlayer == null)
+        if (string.IsNullOrWhiteSpace(sceneName) || playerResources == null)
         {
             return;
         }
 
         CloseMenu();
-        PlayerRuntimeState.Instance.SaveLevelEntrySnapshot(currentPlayer.gameObject);
+        PlayerRuntimeState.Instance.SaveLevelEntrySnapshot(playerResources.gameObject);
         SceneManager.LoadScene(sceneName);
     }
 
     private void OpenMenu()
     {
-        if (currentPlayer == null)
+        if (!IsPlayerInRange())
         {
             return;
         }
 
         isMenuOpen = true;
+        SetPromptVisible(false);
 
         if (levelOptions == null || levelOptions.Length == 0)
         {
@@ -109,27 +129,41 @@ public class LevelPortal : MonoBehaviour
         {
             runtimeMenu.Hide();
         }
+
+        if (IsPlayerInRange())
+        {
+            UpdatePrompt();
+            SetPromptVisible(true);
+        }
+        else
+        {
+            SetPromptVisible(false);
+        }
     }
 
-    private static PlayerResources FindPlayerResources(Collider2D other)
+    private bool IsPlayerInRange()
     {
-        if (other == null)
+        if (playerResources == null)
         {
-            return null;
+            return false;
         }
 
-        PlayerResources resources = other.GetComponent<PlayerResources>();
-        if (resources != null)
-        {
-            return resources;
-        }
+        return Vector2.Distance(transform.position, playerResources.transform.position) <= interactionRange;
+    }
 
-        resources = other.GetComponentInParent<PlayerResources>();
-        if (resources != null)
+    private void UpdatePrompt()
+    {
+        if (promptLabel != null)
         {
-            return resources;
+            promptLabel.text = promptMessage;
         }
+    }
 
-        return other.attachedRigidbody != null ? other.attachedRigidbody.GetComponent<PlayerResources>() : null;
+    private void SetPromptVisible(bool visible)
+    {
+        if (promptRoot != null)
+        {
+            promptRoot.SetActive(visible);
+        }
     }
 }

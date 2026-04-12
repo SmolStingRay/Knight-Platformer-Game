@@ -17,14 +17,27 @@ public class PlayerHud : MonoBehaviour
 
     private void Awake()
     {
-        if (health == null)
-        {
-            health = FindFirstObjectByType<Health>();
-        }
-
         if (playerResources == null)
         {
             playerResources = FindFirstObjectByType<PlayerResources>();
+        }
+
+        if (health == null)
+        {
+            if (playerResources != null)
+            {
+                health = playerResources.GetComponent<Health>();
+
+                if (health == null)
+                {
+                    health = playerResources.GetComponentInParent<Health>();
+                }
+            }
+
+            if (health == null)
+            {
+                health = FindFirstObjectByType<Health>();
+            }
         }
     }
 

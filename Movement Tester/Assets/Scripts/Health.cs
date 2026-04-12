@@ -134,6 +134,12 @@ public class Health : MonoBehaviour
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
+    public void SetMaxHealth(int value, bool healToFull = true)
+    {
+        int targetMaxHealth = Mathf.Max(1, value);
+        SetMaxHealthBonus(targetMaxHealth - baseMaxHealth, healToFull);
+    }
+
     // =========================
     // OPTIONAL DIRECT CONTROL
     // =========================
