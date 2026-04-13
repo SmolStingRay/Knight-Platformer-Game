@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
     public int enemyHealth = 5;
-    public int goldDrop;
+    public int goldDrop = 0;
 
     private void Start()
     {
