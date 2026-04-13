@@ -22,6 +22,8 @@ public class PlayerRuntimeState : MonoBehaviour
         }
     }
 
+    public bool HasCurrentState => currentState.IsValid;
+
     private static PlayerRuntimeState instance;
 
     private PlayerStateSnapshot currentState;
@@ -93,6 +95,24 @@ public class PlayerRuntimeState : MonoBehaviour
         }
 
         currentState = levelEntrySnapshot;
+    }
+
+    public void CaptureResourceState(PlayerResources resources)
+    {
+        if (resources == null)
+        {
+            return;
+        }
+
+        if (!currentState.IsValid)
+        {
+            currentState = BuildSnapshot(resources.gameObject);
+            return;
+        }
+
+        currentState.IsValid = true;
+        currentState.Gold = resources.Gold;
+        currentState.PotionCount = resources.PotionCount;
     }
 
     private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)

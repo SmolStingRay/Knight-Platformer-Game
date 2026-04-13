@@ -7,7 +7,7 @@ public class PlayerResources : MonoBehaviour
     [Header("Starting Resources")]
     [SerializeField] private int startingGold;
     [SerializeField] private int startingPotionCount;
-    [SerializeField] private bool resetResourcesOnEnable = true;
+    [SerializeField] private bool resetResourcesOnEnable = false;
 
     public event Action<int> GoldChanged;
     public event Action<int> PotionCountChanged;
@@ -23,6 +23,12 @@ public class PlayerResources : MonoBehaviour
 
     private void OnEnable()
     {
+        if (PlayerRuntimeState.Instance.HasCurrentState)
+        {
+            NotifyResourceChanges();
+            return;
+        }
+
         if (resetResourcesOnEnable)
         {
             ResetResources();
@@ -38,6 +44,7 @@ public class PlayerResources : MonoBehaviour
         Gold = Mathf.Max(0, startingGold);
         PotionCount = Mathf.Max(0, startingPotionCount);
         NotifyResourceChanges();
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
     }
 
     public void AddGold(int amount)
@@ -49,6 +56,7 @@ public class PlayerResources : MonoBehaviour
 
         Gold += amount;
         GoldChanged?.Invoke(Gold);
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
     }
 
     public bool SpendGold(int amount)
@@ -65,6 +73,7 @@ public class PlayerResources : MonoBehaviour
 
         Gold -= amount;
         GoldChanged?.Invoke(Gold);
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
         return true;
     }
 
@@ -77,6 +86,7 @@ public class PlayerResources : MonoBehaviour
 
         PotionCount += amount;
         PotionCountChanged?.Invoke(PotionCount);
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
     }
 
     public bool ConsumePotion(int amount = 1)
@@ -93,6 +103,7 @@ public class PlayerResources : MonoBehaviour
 
         PotionCount -= amount;
         PotionCountChanged?.Invoke(PotionCount);
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
         return true;
     }
 
@@ -101,6 +112,7 @@ public class PlayerResources : MonoBehaviour
         Gold = Mathf.Max(0, gold);
         PotionCount = Mathf.Max(0, potionCount);
         NotifyResourceChanges();
+        PlayerRuntimeState.Instance.CaptureResourceState(this);
     }
 
     private void NotifyResourceChanges()

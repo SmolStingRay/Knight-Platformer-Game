@@ -28,6 +28,8 @@ public class PlayerAttack2D : MonoBehaviour
     private Health selfHealth;
     private Rigidbody2D selfRigidbody;
     private float nextAttackTime;
+    private bool editorPreviewActive;
+    private double editorPreviewUntil;
 
     public int CurrentAttackDamage => combatStats != null ? combatStats.AttackDamage : 1;
 
@@ -118,15 +120,27 @@ public class PlayerAttack2D : MonoBehaviour
         }
     }
 
+    public void PreviewAttackInEditor()
+    {
+#if UNITY_EDITOR
+        slashVfx?.PreviewSlashInEditor();
+        editorPreviewActive = true;
+        editorPreviewUntil = UnityEditor.EditorApplication.timeSinceStartup + Mathf.Max(0.2f, attackCooldown);
+        UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
+        UnityEditor.SceneView.RepaintAll();
+#endif
+    }
+
     private Vector2 GetAttackCenter()
     {
-        if (attackPoint != null)
-        {
-            return attackPoint.position;
-        }
-
         float facingSign = transform.localScale.x >= 0f ? 1f : -1f;
         Vector2 worldOffset = new Vector2(attackOffset.x * facingSign, attackOffset.y);
+
+        if (attackPoint != null)
+        {
+            return (Vector2)attackPoint.position + worldOffset;
+        }
+
         return (Vector2)transform.position + worldOffset;
     }
 
@@ -167,6 +181,25 @@ public class PlayerAttack2D : MonoBehaviour
         return false;
     }
 
+    private void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        if (!drawAttackGizmo || !editorPreviewActive)
+        {
+            return;
+        }
+
+        if (UnityEditor.EditorApplication.timeSinceStartup >= editorPreviewUntil)
+        {
+            editorPreviewActive = false;
+            return;
+        }
+
+        DrawAttackGizmo(new Color(1f, 0.2f, 0.2f, 0.2f), Color.red);
+        UnityEditor.SceneView.RepaintAll();
+#endif
+    }
+
     private void OnDrawGizmosSelected()
     {
         if (!drawAttackGizmo)
@@ -174,7 +207,14 @@ public class PlayerAttack2D : MonoBehaviour
             return;
         }
 
-        Gizmos.color = Color.red;
+        DrawAttackGizmo(new Color(1f, 0.2f, 0.2f, 0.12f), Color.red);
+    }
+
+    private void DrawAttackGizmo(Color fillColor, Color wireColor)
+    {
+        Gizmos.color = fillColor;
+        Gizmos.DrawCube(GetAttackCenter(), attackSize);
+        Gizmos.color = wireColor;
         Gizmos.DrawWireCube(GetAttackCenter(), attackSize);
     }
 }

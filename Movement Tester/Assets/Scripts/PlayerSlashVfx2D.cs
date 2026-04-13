@@ -1,12 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
+[ExecuteAlways]
 [DisallowMultipleComponent]
 public class PlayerSlashVfx2D : MonoBehaviour
 {
     [Header("Attachment")]
     [SerializeField] private Transform effectAnchor;
     [SerializeField] private Vector3 localOffset = new(0.1f, 0f, 0f);
+    [SerializeField] private bool mirrorWithFacing = true;
 
     [Header("Look")]
     [SerializeField] private Sprite customSlashSprite;
@@ -25,6 +27,16 @@ public class PlayerSlashVfx2D : MonoBehaviour
     private GameObject slashVisual;
     private SpriteRenderer slashRenderer;
     private Sprite generatedSlashSprite;
+    private bool editorPreviewActive;
+    private double editorPreviewStartedAt;
+
+#if UNITY_EDITOR
+    private void OnEnable()
+    {
+        UnityEditor.EditorApplication.update -= HandleEditorUpdate;
+        UnityEditor.EditorApplication.update += HandleEditorUpdate;
+    }
+#endif
 
     private void Awake()
     {
@@ -43,6 +55,10 @@ public class PlayerSlashVfx2D : MonoBehaviour
         {
             slashVisual.SetActive(false);
         }
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.update -= HandleEditorUpdate;
+#endif
     }
 
     public void SetAnchor(Transform anchor)
@@ -63,12 +79,33 @@ public class PlayerSlashVfx2D : MonoBehaviour
     {
         EnsureVisual();
 
+        if (!Application.isPlaying)
+        {
+            PreviewSlashInEditor();
+            return;
+        }
+
         if (activeRoutine != null)
         {
             StopCoroutine(activeRoutine);
         }
 
         activeRoutine = StartCoroutine(PlaySlashRoutine());
+    }
+
+    [ContextMenu("Preview Slash")]
+    public void PreviewSlashInEditor()
+    {
+        EnsureVisual();
+        editorPreviewActive = true;
+        editorPreviewStartedAt = GetEditorTime();
+        ApplyPreviewFrame(0f);
+        slashVisual.SetActive(true);
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
+        UnityEditor.SceneView.RepaintAll();
+#endif
     }
 
     private void EnsureVisual()
@@ -103,7 +140,7 @@ public class PlayerSlashVfx2D : MonoBehaviour
     private IEnumerator PlaySlashRoutine()
     {
         slashVisual.transform.SetParent(effectAnchor != null ? effectAnchor : transform, false);
-        slashVisual.transform.localPosition = localOffset;
+        slashVisual.transform.localPosition = GetResolvedLocalOffset();
         slashRenderer.color = new Color(slashColor.r, slashColor.g, slashColor.b, 0f);
         slashVisual.SetActive(true);
 
@@ -127,6 +164,89 @@ public class PlayerSlashVfx2D : MonoBehaviour
         slashVisual.SetActive(false);
         activeRoutine = null;
     }
+
+    private void ApplyPreviewFrame(float t)
+    {
+        EnsureVisual();
+
+        if (slashVisual == null || slashRenderer == null)
+        {
+            return;
+        }
+
+        float alpha = Mathf.Sin(t * Mathf.PI) * Mathf.Clamp01(alphaCurve.Evaluate(t)) * slashColor.a;
+        float scaleMultiplier = Mathf.Max(0.01f, scaleCurve.Evaluate(t));
+        Vector3 baseScale = new Vector3(slashScale.x, slashScale.y, 1f);
+
+        slashVisual.transform.SetParent(effectAnchor != null ? effectAnchor : transform, false);
+        slashVisual.transform.localPosition = GetResolvedLocalOffset();
+        slashVisual.transform.localScale = baseScale * scaleMultiplier;
+        slashVisual.transform.localRotation = Quaternion.Euler(0f, 0f, Mathf.Lerp(GetResolvedStartAngle(), GetResolvedEndAngle(), t));
+        slashRenderer.color = new Color(slashColor.r, slashColor.g, slashColor.b, alpha);
+        slashVisual.SetActive(alpha > 0.001f);
+    }
+
+    private Vector3 GetResolvedLocalOffset()
+    {
+        float sign = GetFacingSign();
+        return new Vector3(localOffset.x * sign, localOffset.y, localOffset.z);
+    }
+
+    private float GetResolvedStartAngle()
+    {
+        return mirrorWithFacing && GetFacingSign() < 0f ? 180f - startAngle : startAngle;
+    }
+
+    private float GetResolvedEndAngle()
+    {
+        return mirrorWithFacing && GetFacingSign() < 0f ? 180f - endAngle : endAngle;
+    }
+
+    private float GetFacingSign()
+    {
+        if (!mirrorWithFacing)
+        {
+            return 1f;
+        }
+
+        Transform facingSource = effectAnchor != null ? effectAnchor.root : transform;
+        return facingSource.localScale.x >= 0f ? 1f : -1f;
+    }
+
+#if UNITY_EDITOR
+    private void HandleEditorUpdate()
+    {
+        if (Application.isPlaying || !editorPreviewActive || slashVisual == null)
+        {
+            return;
+        }
+
+        float duration = Mathf.Max(0.01f, slashDuration);
+        float elapsed = (float)(GetEditorTime() - editorPreviewStartedAt);
+        float t = Mathf.Clamp01(elapsed / duration);
+        ApplyPreviewFrame(t);
+
+        if (elapsed >= duration)
+        {
+            editorPreviewActive = false;
+            slashRenderer.color = new Color(slashColor.r, slashColor.g, slashColor.b, 0f);
+            slashVisual.SetActive(false);
+        }
+
+        UnityEditor.EditorApplication.QueuePlayerLoopUpdate();
+        UnityEditor.SceneView.RepaintAll();
+    }
+
+    private static double GetEditorTime()
+    {
+        return UnityEditor.EditorApplication.timeSinceStartup;
+    }
+#else
+    private static double GetEditorTime()
+    {
+        return Time.unscaledTimeAsDouble;
+    }
+#endif
 
     private Sprite GetOrCreatePlaceholderSprite()
     {

@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 6447127313949822011}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -359,6 +359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectAnchor: {fileID: 0}
   localOffset: {x: 0.1, y: 0, z: 0}
+  mirrorWithFacing: 1
   customSlashSprite: {fileID: 0}
   slashColor: {r: 1, g: 1, b: 1, a: 0.9}
   slashScale: {x: 1.8, y: 1.4}
