@@ -3,8 +3,13 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [Header("Health")]
-    [SerializeField] private int maxHealth = 5;
+    [Header("Base Health")]
+    [SerializeField] private int baseMaxHealth = 10;
+
+    [Header("Runtime Bonus")]
+    [SerializeField] private int bonusMaxHealth = 0;
+
+    [Header("Health State")]
     [SerializeField] private bool resetHealthOnEnable = true;
 
     [Header("Protection")]
@@ -15,7 +20,10 @@ public class Health : MonoBehaviour
     public event Action Damaged;
     public event Action Died;
 
-    public int MaxHealth => maxHealth;
+    public int BaseMaxHealth => baseMaxHealth;
+    public int BonusMaxHealth => bonusMaxHealth;
+    public int MaxHealth => baseMaxHealth + bonusMaxHealth;
+
     public int CurrentHealth { get; private set; }
     public bool IsDead { get; private set; }
     public bool IsInvulnerable => invulnerableUntil > Time.time;
@@ -24,7 +32,7 @@ public class Health : MonoBehaviour
 
     private void Awake()
     {
-        CurrentHealth = Mathf.Clamp(maxHealth, 0, maxHealth);
+        CurrentHealth = MaxHealth;
     }
 
     private void OnEnable()
@@ -40,14 +48,17 @@ public class Health : MonoBehaviour
         }
     }
 
+    // =========================
+    // DAMAGE SYSTEM
+    // =========================
+
     public void TakeDamage(int amount)
     {
         if (amount <= 0 || IsDead || IsInvulnerable)
-        {
             return;
-        }
 
         CurrentHealth = Mathf.Max(0, CurrentHealth - amount);
+
         Damaged?.Invoke();
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
 
@@ -64,32 +75,89 @@ public class Health : MonoBehaviour
     public void Heal(int amount)
     {
         if (amount <= 0 || IsDead)
-        {
             return;
-        }
 
-        int previousHealth = CurrentHealth;
+        int previous = CurrentHealth;
         CurrentHealth = Mathf.Min(MaxHealth, CurrentHealth + amount);
 
-        if (CurrentHealth != previousHealth)
+        if (CurrentHealth != previous)
         {
             HealthChanged?.Invoke(CurrentHealth, MaxHealth);
         }
     }
 
+    // =========================
+    // HEALTH CONTROL
+    // =========================
+
     public void RestoreFullHealth()
     {
         IsDead = false;
-        CurrentHealth = maxHealth;
+        CurrentHealth = MaxHealth;
         HealthChanged?.Invoke(CurrentHealth, MaxHealth);
     }
 
+    // =========================
+    // ARMOUR SYSTEM (IMPORTANT)
+    // =========================
+
+    public void AddMaxHealthBonus(int amount, bool healToFull = true)
+    {
+        bonusMaxHealth += Mathf.Max(0, amount);
+
+        if (healToFull)
+        {
+            CurrentHealth = MaxHealth;
+        }
+        else
+        {
+            CurrentHealth = Mathf.Min(CurrentHealth, MaxHealth);
+        }
+
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+    }
+
+    public void SetMaxHealthBonus(int value, bool healToFull = true)
+    {
+        bonusMaxHealth = Mathf.Max(0, value);
+
+        if (healToFull)
+        {
+            RestoreFullHealth();
+        }
+        else
+        {
+            CurrentHealth = Mathf.Clamp(CurrentHealth, 0, MaxHealth);
+        }
+
+        IsDead = CurrentHealth == 0;
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+    }
+
+    public void SetMaxHealth(int value, bool healToFull = true)
+    {
+        int targetMaxHealth = Mathf.Max(1, value);
+        SetMaxHealthBonus(targetMaxHealth - baseMaxHealth, healToFull);
+    }
+
+    // =========================
+    // OPTIONAL DIRECT CONTROL
+    // =========================
+
+    public void SetCurrentHealth(int value)
+    {
+        CurrentHealth = Mathf.Clamp(value, 0, MaxHealth);
+        IsDead = CurrentHealth == 0;
+        HealthChanged?.Invoke(CurrentHealth, MaxHealth);
+    }
+
+    // =========================
+    // INVULNERABILITY
+    // =========================
+
     public void ProtectForSeconds(float seconds)
     {
-        if (seconds <= 0f)
-        {
-            return;
-        }
+        if (seconds <= 0f) return;
 
         invulnerableUntil = Mathf.Max(invulnerableUntil, Time.time + seconds);
     }

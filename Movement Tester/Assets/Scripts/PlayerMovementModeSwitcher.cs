@@ -7,6 +7,7 @@ public class PlayerMovementModeSwitcher : MonoBehaviour
     [SerializeField] private string townSceneName = "SampleScene";
     [SerializeField] private TopDownMovement topDownMovement;
     [SerializeField] private PlatformerMovement2D platformerMovement;
+    [SerializeField] private PlayerAttack2D playerAttack;
     [SerializeField] private PlayerRespawn playerRespawn;
     [SerializeField] private Collider2D[] collidersToDisableOnDeath;
 
@@ -24,6 +25,11 @@ public class PlayerMovementModeSwitcher : MonoBehaviour
         if (platformerMovement == null)
         {
             platformerMovement = GetComponent<PlatformerMovement2D>();
+        }
+
+        if (playerAttack == null)
+        {
+            playerAttack = GetComponent<PlayerAttack2D>();
         }
 
         if (playerRespawn == null)
@@ -64,6 +70,11 @@ public class PlayerMovementModeSwitcher : MonoBehaviour
         if (platformerMovement != null)
         {
             platformerMovement.enabled = !isTownScene;
+        }
+
+        if (playerAttack != null)
+        {
+            playerAttack.enabled = !isTownScene;
         }
 
         if (rb != null)
