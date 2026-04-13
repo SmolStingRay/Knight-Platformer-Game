@@ -118,7 +118,7 @@ public class PlatformerMovement2D : MonoBehaviour
             rb.linearVelocity += Vector2.up * Physics2D.gravity.y * (lowJumpGravityMultiplier - 1f) * Time.fixedDeltaTime;
         }
     }
-
+    public bool IsGrounded => isGrounded;
     private void OnDrawGizmosSelected()
     {
         Vector2 checkPosition = groundCheck != null ? (Vector2)groundCheck.position : (Vector2)transform.position + Vector2.down;
