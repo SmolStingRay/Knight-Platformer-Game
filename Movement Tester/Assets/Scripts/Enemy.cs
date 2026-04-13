@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float speed = 3f;
     public float rotateSpeed = 0.0025f;
     private Rigidbody2D rb;
+    public int health = 5;
 
     private void Start()
     {
@@ -24,6 +25,11 @@ public class Enemy : MonoBehaviour
             RotateTowardsTarget();
         }
 
+        if (health <= 0)
+        {
+            //Add code for enemy drops here
+            Destroy(gameObject);
+        }
     }
 
     private void FixedUpdate()
@@ -53,7 +59,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            //Make it do damage to player
+            //Add code for attack and make it do damage to player
         }
     }
 
