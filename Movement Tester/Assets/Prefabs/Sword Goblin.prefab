@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 8998211863236253676}
   - component: {fileID: 402353385292729352}
   - component: {fileID: 265999254042639669}
+  - component: {fileID: 6613733549727222606}
   m_Layer: 3
   m_Name: Sword Goblin
   m_TagString: Untagged
@@ -196,6 +197,7 @@ MonoBehaviour:
   rb: {fileID: 6038343176157950540}
   health: {fileID: 8504963145233920117}
   attackVfx: {fileID: 0}
+  animationDriver: {fileID: 0}
   patrolSpeed: 2
   chaseSpeed: 3.5
   patrolDistance: 3
@@ -226,7 +228,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5571880248147886562}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc5267fc63009bf40a169c4e476b7cb0, type: 3}
   m_Name: 
@@ -389,7 +391,7 @@ Animator:
   m_GameObject: {fileID: 5571880248147886562}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 943f33e56ff4f4b40aba5dc50168a009, type: 2}
+  m_Controller: {fileID: 9100000, guid: e2d02afc29589bb4d9fa30473a09bdaa, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -401,3 +403,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6613733549727222606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5571880248147886562}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67b9a3e280a8043b56b63463c0e43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 265999254042639669}
+  rb: {fileID: 6038343176157950540}
+  health: {fileID: 4282070323232622257}
+  moveThreshold: 0.05

@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Health health;
     [SerializeField] private PlayerSlashVfx2D attackVfx;
+    [SerializeField] private EnemyAnimationDriver animationDriver;
 
     [Header("Movement")]
     [SerializeField] private float patrolSpeed = 2f;
@@ -65,6 +66,7 @@ public class Enemy : MonoBehaviour
         attackVfx = attackVfx != null ? attackVfx : GetComponent<PlayerSlashVfx2D>();
         spawnPosition = transform.position;
         initialScale = transform.localScale;
+        animationDriver = animationDriver != null ? animationDriver : GetComponent<EnemyAnimationDriver>();
 
         if (rb != null)
         {
@@ -337,7 +339,9 @@ public class Enemy : MonoBehaviour
         }
 
         nextAttackTime = Time.time + attackCooldown;
+        animationDriver?.PlayAttack();
         attackVfx?.PlaySlash();
+
 
         ContactFilter2D contactFilter = new ContactFilter2D
         {

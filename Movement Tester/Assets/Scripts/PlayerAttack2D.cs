@@ -18,6 +18,7 @@ public class PlayerAttack2D : MonoBehaviour
 
     [Header("Feedback")]
     [SerializeField] private PlayerSlashVfx2D slashVfx;
+    [SerializeField] private PlayerAnimationController animationController;
 
     [Header("Debug")]
     [SerializeField] private bool drawAttackGizmo = true;
@@ -39,13 +40,13 @@ public class PlayerAttack2D : MonoBehaviour
         selfHealth = GetComponent<Health>();
         selfRigidbody = GetComponent<Rigidbody2D>();
         slashVfx = slashVfx != null ? slashVfx : GetComponent<PlayerSlashVfx2D>();
+        animationController = animationController != null ? animationController : GetComponent<PlayerAnimationController>();
 
         if (slashVfx != null)
         {
             slashVfx.SetAnchor(attackPoint);
         }
     }
-
     private void OnEnable()
     {
         nextAttackTime = 0f;
@@ -78,6 +79,7 @@ public class PlayerAttack2D : MonoBehaviour
     private void PerformAttack()
     {
         slashVfx?.PlaySlash();
+        animationController?.PlayAttack();
 
         Vector2 center = GetAttackCenter();
         ContactFilter2D contactFilter = new ContactFilter2D

@@ -4,19 +4,37 @@ public class PlayerAnimationController : MonoBehaviour
 {
     private Animator animator;
     private Rigidbody2D rb;
-    private SpriteRenderer spriteRenderer;
 
     private TopDownMovement topDownMovement;
     private PlatformerMovement2D platformerMovement;
+    private Health health;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
         topDownMovement = GetComponent<TopDownMovement>();
         platformerMovement = GetComponent<PlatformerMovement2D>();
+        health = GetComponent<Health>();
+    }
+
+    private void OnEnable()
+    {
+        if (health != null)
+        {
+            health.Damaged += PlayHurt;
+            health.Died += PlayDie;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (health != null)
+        {
+            health.Damaged -= PlayHurt;
+            health.Died -= PlayDie;
+        }
     }
 
     private void Update()
@@ -30,15 +48,6 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
             animator.SetBool("IsGrounded", platformerMovement.IsGrounded);
-        }
-
-        if (rb.linearVelocity.x > 0.01f)
-        {
-            spriteRenderer.flipX = false;
-        }
-        else if (rb.linearVelocity.x < -0.01f)
-        {
-            spriteRenderer.flipX = true;
         }
     }
 
