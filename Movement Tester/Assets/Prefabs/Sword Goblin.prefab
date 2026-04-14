@@ -112,7 +112,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -185,12 +185,13 @@ MonoBehaviour:
   chaseSpeed: 3.5
   patrolDistance: 3
   patrolPauseDuration: 0.5
-  startPatrolToRight: 1
+  startPatrolToRight: 0
   faceMoveDirection: 1
   hitStunDuration: 0.2
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
+  closeAggroRange: 1.5
   sightBlockerLayers:
     serializedVersion: 2
     m_Bits: 0
