@@ -334,6 +334,12 @@ MonoBehaviour:
   levelOptions:
   - displayName: Combat Test
     sceneName: CombatTest
+  - displayName: Safe Room
+    sceneName: SafeRoom
+  - displayName: Level 1
+    sceneName: Level 1
+  - displayName: Town Center
+    sceneName: HealthSystemTest
 --- !u!95 &2147510456868289294
 Animator:
   serializedVersion: 7

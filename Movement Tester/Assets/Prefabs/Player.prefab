@@ -233,7 +233,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77bf7d537e7144f3bad4197af52b4ec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  townSceneName: HealthSystemTest
+  topDownSceneNames:
+  - HealthSystemTest
+  - Safe Room
   topDownMovement: {fileID: 8655228600719645029}
   platformerMovement: {fileID: 10225129418243342}
   playerAttack: {fileID: 826990516564462096}
