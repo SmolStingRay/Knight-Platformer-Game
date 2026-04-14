@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1811205051374150258}
   - component: {fileID: 6038343176157950540}
   - component: {fileID: 4821467791527116404}
-  - component: {fileID: 8504963145233920117}
   - component: {fileID: 6002817203557500978}
   - component: {fileID: 8538109693568406629}
   - component: {fileID: 3155363729703460939}
@@ -89,7 +88,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: -918887132878335147, guid: d2710fcca472e814d9a397db98f9bd45, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -137,32 +136,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aac7c909f15578849a471909d15dcc8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 8504963145233920117}
+  health: {fileID: 4282070323232622257}
   rb: {fileID: 6038343176157950540}
   renderers: []
   knockbackForce: 2.2
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
   flashColor: {r: 1, g: 1, b: 1, a: 0.35}
-  flashCount: 2
+  flashCount: 1
   flashInterval: 0.06
---- !u!114 &8504963145233920117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5571880248147886562}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd24185f20b3feb43bc80943383e70db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseMaxHealth: 3
-  bonusMaxHealth: 0
-  resetHealthOnEnable: 1
-  invulnerableOnStart: 0
-  damageProtectionDuration: 1
 --- !u!114 &6002817203557500978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,7 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bece84986dc60a4ab8eca7b0bd4299c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 8504963145233920117}
+  health: {fileID: 4282070323232622257}
   goldPickupPrefab: {fileID: 5622954384034616940, guid: 339ea4385a6fe9e4cb4e7214b5025219, type: 3}
   minGoldDrop: 1
   maxGoldDrop: 2
@@ -195,7 +177,7 @@ MonoBehaviour:
   target: {fileID: 0}
   attackPoint: {fileID: 0}
   rb: {fileID: 6038343176157950540}
-  health: {fileID: 8504963145233920117}
+  health: {fileID: 4282070323232622257}
   attackVfx: {fileID: 0}
   animationDriver: {fileID: 0}
   patrolSpeed: 2
@@ -233,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc5267fc63009bf40a169c4e476b7cb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: {fileID: 8504963145233920117}
+  health: {fileID: 0}
   rb: {fileID: 6038343176157950540}
   liveRenderers: []
   corpseSpriteRenderer: {fileID: 0}

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [DisallowMultipleComponent]
@@ -6,7 +7,9 @@ public class EnemyAnimationDriver : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Health health;
+    [SerializeField] private Collider2D[] collidersToDisable;
     [SerializeField] private float moveThreshold = 0.05f;
+    [SerializeField] private float deathFreezeDelay = 0.45f;
 
     private bool isDead;
 
@@ -20,6 +23,9 @@ public class EnemyAnimationDriver : MonoBehaviour
 
         if (health == null)
             health = GetComponent<Health>();
+
+        if (collidersToDisable == null || collidersToDisable.Length == 0)
+            collidersToDisable = GetComponentsInChildren<Collider2D>();
     }
 
     private void OnEnable()
@@ -80,5 +86,25 @@ public class EnemyAnimationDriver : MonoBehaviour
         animator.ResetTrigger("Attack");
         animator.ResetTrigger("Hurt");
         animator.SetTrigger("Die");
+
+        StartCoroutine(FreezeAfterDeath());
+    }
+
+    private IEnumerator FreezeAfterDeath()
+    {
+        yield return new WaitForSeconds(deathFreezeDelay);
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.bodyType = RigidbodyType2D.Kinematic;
+        }
+
+        foreach (Collider2D col in collidersToDisable)
+        {
+            if (col != null)
+                col.enabled = false;
+        }
     }
 }

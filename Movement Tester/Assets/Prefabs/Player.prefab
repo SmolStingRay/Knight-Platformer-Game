@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8640287929618635259}
   - component: {fileID: 8399345098050102365}
   - component: {fileID: 5128890358293331908}
+  - component: {fileID: 8629255494985594984}
   - component: {fileID: 3361450836277944124}
   - component: {fileID: 9123200258392448900}
   - component: {fileID: 4948561777693873569}
@@ -22,6 +23,7 @@ GameObject:
   - component: {fileID: 4885593021046841421}
   - component: {fileID: 4289107916546668131}
   - component: {fileID: 4797992843594430597}
+  - component: {fileID: 826990516564462096}
   - component: {fileID: 6447127313949822011}
   - component: {fileID: 4839857998490425427}
   - component: {fileID: 8421567690350050131}
@@ -45,7 +47,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 705726619359216347}
+  - {fileID: 7302144414849948312}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &8399345098050102365
@@ -122,6 +124,27 @@ MonoBehaviour:
   behavioursToDisableOnDeath: []
   collidersToDisableOnDeath: []
   rb: {fileID: 4824725206439689766}
+--- !u!114 &8629255494985594984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412491159004472249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aac7c909f15578849a471909d15dcc8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 3361450836277944124}
+  rb: {fileID: 4824725206439689766}
+  renderers: []
+  knockbackForce: 2.2
+  upwardForce: 0.4
+  clearHorizontalVelocityOnHit: 1
+  flashColor: {r: 1, g: 1, b: 1, a: 0.35}
+  flashCount: 2
+  flashInterval: 0.06
 --- !u!114 &3361450836277944124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +235,7 @@ MonoBehaviour:
   townSceneName: HealthSystemTest
   topDownMovement: {fileID: 8655228600719645029}
   platformerMovement: {fileID: 10225129418243342}
-  playerAttack: {fileID: 0}
+  playerAttack: {fileID: 826990516564462096}
   playerRespawn: {fileID: 5128890358293331908}
   collidersToDisableOnDeath: []
 --- !u!114 &8655228600719645029
@@ -251,10 +274,10 @@ MonoBehaviour:
   fallGravityMultiplier: 2.2
   lowJumpGravityMultiplier: 2
   groundCheck: {fileID: 0}
-  groundCheckSize: {x: 0.9, y: 0.25}
+  groundCheckSize: {x: 0.97, y: 0.39}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 64
 --- !u!114 &7110117993494246053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -348,7 +371,7 @@ MonoBehaviour:
   statsText: {fileID: 0}
   health: {fileID: 3361450836277944124}
   combatStats: {fileID: 9123200258392448900}
---- !u!114 &6447127313949822011
+--- !u!114 &826990516564462096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -356,6 +379,29 @@ MonoBehaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2412491159004472249}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 099c970c107ab0f4697c9d33b27700f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackKey: 106
+  attackPoint: {fileID: 7302144414849948312}
+  attackSize: {x: 1.8, y: 1.8}
+  attackOffset: {x: 0.75, y: 0}
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 8
+  attackCooldown: 0.3
+  slashVfx: {fileID: 0}
+  animationController: {fileID: 0}
+  drawAttackGizmo: 1
+--- !u!114 &6447127313949822011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2412491159004472249}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f4ec67397314bb9af3df18c8a0138f1, type: 3}
   m_Name: 
@@ -365,7 +411,7 @@ MonoBehaviour:
   mirrorWithFacing: 1
   customSlashSprite: {fileID: 0}
   slashColor: {r: 1, g: 1, b: 1, a: 0.9}
-  slashScale: {x: 1.8, y: 1.4}
+  slashScale: {x: 1.8, y: 0.8}
   sortingOrderOffset: 1
   slashDuration: 0.16
   startAngle: -35
@@ -452,7 +498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48dd480cd3d2ca145bf182fa79a85252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &8088929195219375727
+--- !u!1 &4178369343807849704
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -460,24 +506,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 705726619359216347}
+  - component: {fileID: 7302144414849948312}
   m_Layer: 0
-  m_Name: GroundCheck
+  m_Name: AttackPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &705726619359216347
+--- !u!4 &7302144414849948312
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8088929195219375727}
+  m_GameObject: {fileID: 4178369343807849704}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.88, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
