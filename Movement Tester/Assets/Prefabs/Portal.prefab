@@ -340,6 +340,8 @@ MonoBehaviour:
     sceneName: Level 1
   - displayName: Town Center
     sceneName: HealthSystemTest
+  - displayName: Main Menu
+    sceneName: Main Menu
 --- !u!95 &2147510456868289294
 Animator:
   serializedVersion: 7

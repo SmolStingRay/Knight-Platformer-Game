@@ -18,7 +18,7 @@ public class MainMenuController : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Main Menu");
     }
 
     public void QuitGame()

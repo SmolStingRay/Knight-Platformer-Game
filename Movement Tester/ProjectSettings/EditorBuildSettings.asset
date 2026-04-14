@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/CombatTest.unity
-    guid: 4cac11d81e2578c4ab8f5783364dabb2
+    path: Assets/Scenes/Main Menu.unity
+    guid: e31d9f7c82d74ad4d8d95fb316c62b02
   - enabled: 1
     path: Assets/Scenes/HealthSystemTest.unity
     guid: 3f5934fe210642e4ba0842126ef200bb
@@ -26,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 3.unity
     guid: 8c3920f9fdeb6c8438f003fa508c5b64
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: 494d00b4c2db35b4e94f91e7cc707f4a
+  - enabled: 1
+    path: Assets/Scenes/CombatTest.unity
+    guid: 4cac11d81e2578c4ab8f5783364dabb2
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 3590b91b4603b465dbb4216d601bff33, type: 3}
   m_UseUCBPForAssetBundles: 0
