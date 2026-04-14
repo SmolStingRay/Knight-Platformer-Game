@@ -30,8 +30,8 @@ public class CameraFollow2D : MonoBehaviour
     };
     [SerializeField] private CameraProfile combatProfile = new CameraProfile
     {
-        offset = new Vector3(0f, 1.5f, -10f),
-        orthographicSize = 5f,
+        offset = new Vector3(0f, 1.75f, -10f),
+        orthographicSize = 7f,
         smoothTime = 0.18f
     };
 
