@@ -269,8 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 59563358153084032}
   goldPickupPrefab: {fileID: 5622954384034616940, guid: 339ea4385a6fe9e4cb4e7214b5025219, type: 3}
-  minGoldDrop: 1
-  maxGoldDrop: 3
+  minGoldDrop: 3
+  maxGoldDrop: 5
   spawnSpread: {x: 0.5, y: 0.2}
 --- !u!114 &2570820121435307086
 MonoBehaviour:

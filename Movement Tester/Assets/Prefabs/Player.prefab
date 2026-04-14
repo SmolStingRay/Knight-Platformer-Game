@@ -142,6 +142,7 @@ MonoBehaviour:
   knockbackForce: 2.2
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
+  enemy: {fileID: 0}
   flashColor: {r: 1, g: 1, b: 1, a: 0.35}
   flashCount: 2
   flashInterval: 0.06
@@ -385,8 +386,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackKey: 106
   attackPoint: {fileID: 7302144414849948312}
-  attackSize: {x: 1.8, y: 1.8}
-  attackOffset: {x: 0.75, y: 0}
+  attackSize: {x: 2.26, y: 1.8}
+  attackOffset: {x: 0.82, y: 0}
   hitLayers:
     serializedVersion: 2
     m_Bits: 8
