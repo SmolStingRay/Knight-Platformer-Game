@@ -267,9 +267,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 7
   acceleration: 12
-  deceleration: 16
+  deceleration: 13
   faceMoveDirection: 1
-  jumpForce: 12
+  jumpForce: 16
   coyoteTime: 0.12
   jumpBufferTime: 0.12
   fallGravityMultiplier: 2.2
