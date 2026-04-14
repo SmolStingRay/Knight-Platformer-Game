@@ -199,8 +199,8 @@ MonoBehaviour:
   attackRange: 1.2
   attackHeightTolerance: 1.25
   attackCooldown: 1
-  attackSize: {x: 1.2, y: 0.8}
-  attackOffset: {x: 0.9, y: 0}
+  attackSize: {x: 1.2, y: 1.3}
+  attackOffset: {x: 0.99, y: 0}
   attackTargetLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -248,7 +248,7 @@ MonoBehaviour:
   bonusMaxHealth: 0
   resetHealthOnEnable: 1
   invulnerableOnStart: 0
-  damageProtectionDuration: 0.75
+  damageProtectionDuration: 0.5
 --- !u!114 &8998211863236253676
 MonoBehaviour:
   m_ObjectHideFlags: 0

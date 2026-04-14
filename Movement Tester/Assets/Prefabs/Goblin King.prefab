@@ -16,8 +16,9 @@ GameObject:
   - component: {fileID: 4128977181622126559}
   - component: {fileID: 59563358153084032}
   - component: {fileID: 6184063751881324909}
-  - component: {fileID: 2588089769654389023}
   - component: {fileID: 2570820121435307086}
+  - component: {fileID: 8070324615493744325}
+  - component: {fileID: 7714353068344061479}
   m_Layer: 3
   m_Name: Goblin King
   m_TagString: Untagged
@@ -84,9 +85,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4987784229397278575, guid: 4937fd023770d5349b107acb5916ed3e, type: 3}
+  m_Sprite: {fileID: -2053135432932477680, guid: 877d4d213324eac4b93dd12972a9c59c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -129,17 +130,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.024103642, y: -0.9984919}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 7, y: 7.013672}
+    oldSize: {x: 7, y: 7}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.7107744, y: 2.9969838}
   m_EdgeRadius: 0
 --- !u!50 &3730844703010053405
 Rigidbody2D:
@@ -183,14 +184,16 @@ MonoBehaviour:
   target: {fileID: 0}
   attackPoint: {fileID: 0}
   rb: {fileID: 3730844703010053405}
-  health: {fileID: 2588089769654389023}
+  health: {fileID: 59563358153084032}
   attackVfx: {fileID: 0}
-  patrolSpeed: 2
+  animationDriver: {fileID: 0}
+  patrolSpeed: 4
   chaseSpeed: 3.5
   patrolDistance: 3
   patrolPauseDuration: 0.5
   startPatrolToRight: 1
   faceMoveDirection: 1
+  hitStunDuration: 0.2
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
@@ -199,11 +202,11 @@ MonoBehaviour:
     m_Bits: 0
   playerTag: Player
   attackDamage: 1
-  attackRange: 1.2
-  attackHeightTolerance: 1.25
+  attackRange: 2
+  attackHeightTolerance: 2
   attackCooldown: 1
-  attackSize: {x: 1.2, y: 0.8}
-  attackOffset: {x: 0.9, y: 0}
+  attackSize: {x: 2.18, y: 3.35}
+  attackOffset: {x: 1.86, y: -0.96}
   attackTargetLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -215,7 +218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4878736658930848822}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc5267fc63009bf40a169c4e476b7cb0, type: 3}
   m_Name: 
@@ -269,23 +272,6 @@ MonoBehaviour:
   minGoldDrop: 1
   maxGoldDrop: 3
   spawnSpread: {x: 0.5, y: 0.2}
---- !u!114 &2588089769654389023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4878736658930848822}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd24185f20b3feb43bc80943383e70db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseMaxHealth: 10
-  bonusMaxHealth: 0
-  resetHealthOnEnable: 1
-  invulnerableOnStart: 0
-  damageProtectionDuration: 1
 --- !u!114 &2570820121435307086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,6 +290,47 @@ MonoBehaviour:
   knockbackForce: 2.2
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
-  flashColor: {r: 1, g: 1, b: 1, a: 0.35}
+  enemy: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 0}
   flashCount: 2
   flashInterval: 0.06
+--- !u!95 &8070324615493744325
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878736658930848822}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 812cf3b3250288f4b875702c6c1de203, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7714353068344061479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4878736658930848822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67b9a3e280a8043b56b63463c0e43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8070324615493744325}
+  rb: {fileID: 3730844703010053405}
+  health: {fileID: 59563358153084032}
+  collidersToDisable: []
+  moveThreshold: 0.05
+  deathFreezeDelay: 0.45

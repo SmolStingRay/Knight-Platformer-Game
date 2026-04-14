@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 3462242438073285916}
   - component: {fileID: 3425171617605272904}
   - component: {fileID: 584192860595175245}
+  - component: {fileID: 5749763950622686194}
+  - component: {fileID: 8606534695285545839}
   m_Layer: 3
   m_Name: Shield Goblin
   m_TagString: Untagged
@@ -86,7 +88,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 9061221998162328554, guid: ce6e37f1d9ea04a4fa9af7a049163280, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -137,7 +139,7 @@ MonoBehaviour:
   health: {fileID: 3567084450262256985}
   rb: {fileID: 4986937006606319689}
   renderers: []
-  knockbackForce: 2.2
+  knockbackForce: 5
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
   enemy: {fileID: 0}
@@ -160,7 +162,7 @@ MonoBehaviour:
   bonusMaxHealth: 0
   resetHealthOnEnable: 1
   invulnerableOnStart: 0
-  damageProtectionDuration: 1
+  damageProtectionDuration: 0.5
 --- !u!114 &2091330825711441360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,7 +204,7 @@ MonoBehaviour:
   patrolPauseDuration: 0.5
   startPatrolToRight: 1
   faceMoveDirection: 1
-  hitStunDuration: 0.12
+  hitStunDuration: 0.2
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
@@ -211,10 +213,10 @@ MonoBehaviour:
     m_Bits: 0
   playerTag: Player
   attackDamage: 1
-  attackRange: 1.2
+  attackRange: 1
   attackHeightTolerance: 1.25
   attackCooldown: 1
-  attackSize: {x: 1.2, y: 0.8}
+  attackSize: {x: 1, y: 0.8}
   attackOffset: {x: 0.9, y: 0}
   attackTargetLayers:
     serializedVersion: 2
@@ -227,7 +229,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6500646483078875404}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc5267fc63009bf40a169c4e476b7cb0, type: 3}
   m_Name: 
@@ -254,7 +256,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6500646483078875404}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f4ec67397314bb9af3df18c8a0138f1, type: 3}
   m_Name: 
@@ -363,3 +365,43 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1.6859077}
   m_EdgeRadius: 0
+--- !u!95 &5749763950622686194
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6500646483078875404}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2d32e4612d2e8a4b9c33bff826c7277, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8606534695285545839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6500646483078875404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67b9a3e280a8043b56b63463c0e43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5749763950622686194}
+  rb: {fileID: 4986937006606319689}
+  health: {fileID: 3567084450262256985}
+  collidersToDisable: []
+  moveThreshold: 0.05
+  deathFreezeDelay: 0.45
