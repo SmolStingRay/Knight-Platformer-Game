@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -36,6 +36,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float detectionRange = 6f;
     [SerializeField] private float loseTargetRange = 8f;
     [SerializeField] private float fieldOfView = 100f;
+    [SerializeField] private float closeAggroRange = 1.5f; // YENİ
     [SerializeField] private LayerMask sightBlockerLayers;
     [SerializeField] private string playerTag = "Player";
 
@@ -110,6 +111,7 @@ public class Enemy : MonoBehaviour
         if (health != null)
         {
             health.Died += HandleDied;
+            health.Damaged += HandleDamaged; 
         }
     }
 
@@ -117,11 +119,13 @@ public class Enemy : MonoBehaviour
     {
         hitStunTimer = hitStunDuration;
     }
+
     private void OnDisable()
     {
         if (health != null)
         {
             health.Died -= HandleDied;
+            health.Damaged -= HandleDamaged; 
         }
     }
 
@@ -140,7 +144,7 @@ public class Enemy : MonoBehaviour
 
         EnsureTarget();
 
-        if (CanSeeTarget())
+        if (CanSeeTarget() || IsTargetVeryClose()) // new one
         {
             currentState = EnemyState.Chasing;
         }
@@ -180,31 +184,8 @@ public class Enemy : MonoBehaviour
 
     private void Patrol()
     {
-        float leftEdge = spawnPosition.x - patrolDistance;
-        float rightEdge = spawnPosition.x + patrolDistance;
-        float currentX = transform.position.x;
-
-        if (currentX <= leftEdge)
-        {
-            patrolDirection = 1;
-            patrolPauseUntil = Time.time + patrolPauseDuration;
-            FaceDirection(patrolDirection);
-        }
-        else if (currentX >= rightEdge)
-        {
-            patrolDirection = -1;
-            patrolPauseUntil = Time.time + patrolPauseDuration;
-            FaceDirection(patrolDirection);
-        }
-
-        if (Time.time < patrolPauseUntil)
-        {
-            MoveHorizontally(0f);
-            return;
-        }
-
-        FaceDirection(patrolDirection);
-        MoveHorizontally(patrolDirection * patrolSpeed);
+        // Patrolling made them fall from the platforms and levels are quite small so i thought it would be better for them to just stay still until they find a target.
+        MoveHorizontally(0f);
     }
 
     private void Chase()
@@ -329,6 +310,19 @@ public class Enemy : MonoBehaviour
         return true;
     }
 
+    private bool IsTargetVeryClose() // Added this because enemies never looked their back even if you backstab
+    {
+        if (target == null)
+        {
+            return false;
+        }
+
+        float horizontalDelta = Mathf.Abs(target.position.x - transform.position.x);
+        float verticalDelta = Mathf.Abs(target.position.y - transform.position.y);
+
+        return horizontalDelta <= closeAggroRange && verticalDelta <= attackHeightTolerance + 0.5f;
+    }
+
     private bool ShouldStopChasing()
     {
         if (currentState != EnemyState.Chasing || target == null)
@@ -360,7 +354,6 @@ public class Enemy : MonoBehaviour
         animationDriver?.PlayAttack();
         attackVfx?.PlaySlash();
 
-
         ContactFilter2D contactFilter = new ContactFilter2D
         {
             useLayerMask = true,
@@ -387,6 +380,29 @@ public class Enemy : MonoBehaviour
 
             targetHealth.TakeDamage(attackDamage);
             return;
+        }
+    }
+
+    private void HandleDamaged() 
+    {
+        if (currentState == EnemyState.Dead)
+        {
+            return;
+        }
+
+        EnsureTarget();
+
+        if (target == null)
+        {
+            return;
+        }
+
+        currentState = EnemyState.Chasing;
+
+        float horizontalDelta = target.position.x - transform.position.x;
+        if (Mathf.Abs(horizontalDelta) > 0.01f)
+        {
+            FaceDirection(Mathf.Sign(horizontalDelta));
         }
     }
 
@@ -490,5 +506,8 @@ public class Enemy : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
+
+        Gizmos.color = Color.magenta; // close aggro range debug
+        Gizmos.DrawWireSphere(transform.position, closeAggroRange);
     }
 }

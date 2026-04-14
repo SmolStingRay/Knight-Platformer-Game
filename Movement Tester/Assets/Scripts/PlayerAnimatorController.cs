@@ -9,6 +9,8 @@ public class PlayerAnimationController : MonoBehaviour
     private PlatformerMovement2D platformerMovement;
     private Health health;
 
+    private Vector3 initialScale;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -17,6 +19,8 @@ public class PlayerAnimationController : MonoBehaviour
         topDownMovement = GetComponent<TopDownMovement>();
         platformerMovement = GetComponent<PlatformerMovement2D>();
         health = GetComponent<Health>();
+
+        initialScale = transform.localScale;
     }
 
     private void OnEnable()
@@ -43,6 +47,15 @@ public class PlayerAnimationController : MonoBehaviour
         {
             animator.SetFloat("Speed", rb.linearVelocity.magnitude);
             animator.SetBool("IsGrounded", true);
+
+            if (rb.linearVelocity.x > 0.01f)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(initialScale.x), initialScale.y, initialScale.z);
+            }
+            else if (rb.linearVelocity.x < -0.01f)
+            {
+                transform.localScale = new Vector3(-Mathf.Abs(initialScale.x), initialScale.y, initialScale.z);
+            }
         }
         else if (platformerMovement != null && platformerMovement.enabled)
         {

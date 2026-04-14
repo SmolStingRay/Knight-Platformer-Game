@@ -93,7 +93,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 3447589828770737623, guid: f6580d399ae2a564db49124dc91993fc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
   enemy: {fileID: 0}
-  flashColor: {r: 1, g: 1, b: 1, a: 0.35}
+  flashColor: {r: 1, g: 1, b: 1, a: 0.1764706}
   flashCount: 2
   flashInterval: 0.06
 --- !u!114 &3361450836277944124
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2412491159004472249}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3c7600d1e284faabb69166c8d1cdd05, type: 3}
   m_Name: 
