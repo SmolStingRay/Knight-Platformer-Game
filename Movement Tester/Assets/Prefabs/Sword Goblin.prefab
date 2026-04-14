@@ -139,11 +139,12 @@ MonoBehaviour:
   health: {fileID: 4282070323232622257}
   rb: {fileID: 6038343176157950540}
   renderers: []
-  knockbackForce: 2.2
+  knockbackForce: 5
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
-  flashColor: {r: 1, g: 1, b: 1, a: 0.35}
-  flashCount: 1
+  enemy: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 0}
+  flashCount: 0
   flashInterval: 0.06
 --- !u!114 &6002817203557500978
 MonoBehaviour:
@@ -186,6 +187,7 @@ MonoBehaviour:
   patrolPauseDuration: 0.5
   startPatrolToRight: 1
   faceMoveDirection: 1
+  hitStunDuration: 0.2
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
@@ -242,11 +244,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd24185f20b3feb43bc80943383e70db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMaxHealth: 10
+  baseMaxHealth: 3
   bonusMaxHealth: 0
   resetHealthOnEnable: 1
   invulnerableOnStart: 0
-  damageProtectionDuration: 1
+  damageProtectionDuration: 0.75
 --- !u!114 &8998211863236253676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,4 +402,6 @@ MonoBehaviour:
   animator: {fileID: 265999254042639669}
   rb: {fileID: 6038343176157950540}
   health: {fileID: 4282070323232622257}
+  collidersToDisable: []
   moveThreshold: 0.05
+  deathFreezeDelay: 0.45

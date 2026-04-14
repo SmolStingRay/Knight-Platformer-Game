@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 1693905366907083890}
   - component: {fileID: 3567084450262256985}
   - component: {fileID: 2091330825711441360}
-  - component: {fileID: 706614236772493506}
   - component: {fileID: 2453154594798694111}
   - component: {fileID: 3462242438073285916}
   - component: {fileID: 3425171617605272904}
@@ -36,7 +35,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.43, y: -2.14, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,8 +84,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.18431373, g: 0.5294118, b: 0.20784315, a: 1}
+  m_Sprite: {fileID: 9061221998162328554, guid: ce6e37f1d9ea04a4fa9af7a049163280, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -141,6 +140,7 @@ MonoBehaviour:
   knockbackForce: 2.2
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
+  enemy: {fileID: 0}
   flashColor: {r: 1, g: 1, b: 1, a: 0.35}
   flashCount: 2
   flashInterval: 0.06
@@ -178,23 +178,6 @@ MonoBehaviour:
   minGoldDrop: 1
   maxGoldDrop: 2
   spawnSpread: {x: 0.5, y: 0.2}
---- !u!114 &706614236772493506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6500646483078875404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd24185f20b3feb43bc80943383e70db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseMaxHealth: 10
-  bonusMaxHealth: 0
-  resetHealthOnEnable: 1
-  invulnerableOnStart: 0
-  damageProtectionDuration: 1
 --- !u!114 &2453154594798694111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,12 +195,14 @@ MonoBehaviour:
   rb: {fileID: 4986937006606319689}
   health: {fileID: 3567084450262256985}
   attackVfx: {fileID: 0}
+  animationDriver: {fileID: 0}
   patrolSpeed: 2
   chaseSpeed: 3.5
   patrolDistance: 3
   patrolPauseDuration: 0.5
   startPatrolToRight: 1
   faceMoveDirection: 1
+  hitStunDuration: 0.12
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
@@ -366,15 +351,15 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.06197983}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 1.6859077}
   m_EdgeRadius: 0

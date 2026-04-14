@@ -29,6 +29,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] private bool startPatrolToRight = true;
     [SerializeField] private bool faceMoveDirection = true;
 
+    [SerializeField] private float hitStunDuration = 0.12f;
+    private float hitStunTimer;
+
     [Header("Detection")]
     [SerializeField] private float detectionRange = 6f;
     [SerializeField] private float loseTargetRange = 8f;
@@ -110,6 +113,10 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void ApplyHitStun()
+    {
+        hitStunTimer = hitStunDuration;
+    }
     private void OnDisable()
     {
         if (health != null)
@@ -120,6 +127,12 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
+        if (hitStunTimer > 0f)
+        {
+            hitStunTimer -= Time.deltaTime;
+            return;
+        }
+
         if (currentState == EnemyState.Dead)
         {
             return;
@@ -144,6 +157,11 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (hitStunTimer > 0f)
+        {
+            return;
+        }
+
         if (currentState == EnemyState.Dead || rb == null)
         {
             return;

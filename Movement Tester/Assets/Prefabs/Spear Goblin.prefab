@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 7374625581327163702}
   - component: {fileID: 8752167302540967600}
   - component: {fileID: 3731194692606247058}
-  - component: {fileID: 3941501703880439090}
   - component: {fileID: 2325965062844392108}
   - component: {fileID: 2082323606865267330}
+  - component: {fileID: 845932470133202827}
+  - component: {fileID: 5982877298459887149}
   m_Layer: 3
   m_Name: Spear Goblin
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 14.55, y: -1.82, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,9 +86,9 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.13333334, g: 0.2784314, b: 0.29803923, a: 1}
-  m_FlipX: 0
+  m_Sprite: {fileID: 1824548162821340386, guid: f350b8916d6a3084e869dd334bccd651, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}
@@ -138,10 +139,11 @@ MonoBehaviour:
   health: {fileID: 3891154216355002444}
   rb: {fileID: 3779738860430834306}
   renderers: []
-  knockbackForce: 2.2
+  knockbackForce: 5
   upwardForce: 0.4
   clearHorizontalVelocityOnHit: 1
-  flashColor: {r: 1, g: 1, b: 1, a: 0.35}
+  enemy: {fileID: 0}
+  flashColor: {r: 1, g: 1, b: 1, a: 0}
   flashCount: 2
   flashInterval: 0.06
 --- !u!114 &3891154216355002444
@@ -160,7 +162,7 @@ MonoBehaviour:
   bonusMaxHealth: 0
   resetHealthOnEnable: 1
   invulnerableOnStart: 0
-  damageProtectionDuration: 1
+  damageProtectionDuration: 0.75
 --- !u!114 &7374625581327163702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -195,12 +197,14 @@ MonoBehaviour:
   rb: {fileID: 3779738860430834306}
   health: {fileID: 3891154216355002444}
   attackVfx: {fileID: 0}
+  animationDriver: {fileID: 0}
   patrolSpeed: 2
   chaseSpeed: 3.5
   patrolDistance: 3
   patrolPauseDuration: 0.5
   startPatrolToRight: 1
   faceMoveDirection: 1
+  hitStunDuration: 0.2
   detectionRange: 6
   loseTargetRange: 8
   fieldOfView: 100
@@ -225,7 +229,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4990496407747191736}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc5267fc63009bf40a169c4e476b7cb0, type: 3}
   m_Name: 
@@ -245,23 +249,6 @@ MonoBehaviour:
   corpseTint: {r: 0.55, g: 0.55, b: 0.55, a: 1}
   freezeBodyOnDeath: 1
   alignCorpseToGround: 1
---- !u!114 &3941501703880439090
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4990496407747191736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd24185f20b3feb43bc80943383e70db, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseMaxHealth: 10
-  bonusMaxHealth: 0
-  resetHealthOnEnable: 1
-  invulnerableOnStart: 0
-  damageProtectionDuration: 1
 --- !u!114 &2325965062844392108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +256,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4990496407747191736}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f4ec67397314bb9af3df18c8a0138f1, type: 3}
   m_Name: 
@@ -366,15 +353,55 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.028872728, y: -0.2438153}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 3, y: 3}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.63427687, y: 1.4876306}
   m_EdgeRadius: 0
+--- !u!114 &845932470133202827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990496407747191736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af67b9a3e280a8043b56b63463c0e43b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 5982877298459887149}
+  rb: {fileID: 3779738860430834306}
+  health: {fileID: 3891154216355002444}
+  collidersToDisable: []
+  moveThreshold: 0.05
+  deathFreezeDelay: 0.45
+--- !u!95 &5982877298459887149
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4990496407747191736}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b18e85a71bd12104cb0db927f20936dc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

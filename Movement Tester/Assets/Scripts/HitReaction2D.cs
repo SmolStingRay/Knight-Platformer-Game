@@ -14,6 +14,8 @@ public class HitReaction2D : MonoBehaviour
     [SerializeField] private float upwardForce = 0.4f;
     [SerializeField] private bool clearHorizontalVelocityOnHit = true;
 
+    [SerializeField] private Enemy enemy;
+
     [Header("Flash")]
     [SerializeField] private Color flashColor = new(1f, 1f, 1f, 0.35f);
     [SerializeField] private int flashCount = 2;
@@ -24,6 +26,11 @@ public class HitReaction2D : MonoBehaviour
 
     private void Awake()
     {
+        if (enemy == null)
+        {
+            enemy = GetComponent<Enemy>();
+        }
+
         if (health == null)
         {
             health = GetComponent<Health>();
@@ -72,6 +79,7 @@ public class HitReaction2D : MonoBehaviour
 
     private void HandleDamaged()
     {
+        enemy?.ApplyHitStun();
         ApplyKnockback();
         PlayFlash();
     }
